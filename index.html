@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Pixel Artist Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- SCENE 1: Video Intro -->
+<div id="scene1">
+    <video id="introVideo" autoplay muted>
+        <source src="video/intro.mp4" type="video/mp4" />
+        Trình duyệt của bạn không hỗ trợ video.
+    </video>
+    <button id="enterBtn">Vào Portfolio</button>
+</div>
+
+<!-- SCENE 2: Portfolio -->
+<div id="scene2">
+    <header>
+        <h1>Nguyễn Văn A - Pixel Artist</h1>
+        <nav>
+            <a href="#about">Giới thiệu</a>
+            <a href="#gallery">Tác phẩm</a>
+            <a href="#contact">Liên hệ</a>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>Giới thiệu</h2>
+        <p>Tôi là một pixel artist chuyên thiết kế nhân vật và cảnh nền cho game indie.</p>
+    </section>
+
+    <section id="gallery">
+        <h2>Bộ sưu tập</h2>
+        <div class="gallery">
+            <img src="images/art1.png" alt="Pixel art 1" class="project-img" data-id="project1">
+            <img src="images/art2.png" alt="Pixel art 2" class="project-img" data-id="project2">
+            <img src="images/art3.png" alt="Pixel art 3" class="project-img" data-id="project3">
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Liên hệ</h2>
+        <p>Email: artist@example.com</p>
+        <p>Instagram: @pixel.artist</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Nguyễn Văn A</p>
+    </footer>
+</div>
+
+
+
+
+<!-- Scene riêng cho từng project -->
+<div class="project-scene hidden" id="project1">
+    <button class="close-btn">← Quay lại</button>
+    <h2>Dự án 1</h2>
+    <p>Mô tả chi tiết dự án 1...</p>
+</div>
+
+<div class="project-scene hidden" id="project2">
+    <button class="close-btn">← Quay lại</button>
+    <h2>Dự án 2</h2>
+    <p>Mô tả chi tiết dự án 2...</p>
+</div>
+
+<div class="project-scene hidden" id="project3">
+    <button class="close-btn">← Quay lại</button>
+    <h2>Dự án 3</h2>
+    <p>Mô tả chi tiết dự án 3...</p>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
