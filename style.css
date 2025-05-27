@@ -29,24 +29,45 @@ html, body {
   border: 3px solid white;
 }
 
+#scene1 {
+  position: relative; /* Cần có để absolute bên trong hoạt động đúng */
+}
+
+/* Căn nút bên dưới video, không đẩy video */
 #enterBtn {
-  visibility: hidden;
+  position: absolute;
+  bottom: 100px; /* Cách đáy scene1 */
+  left: 50%;
+  transform: translateX(-150%); /* Ban đầu nằm ngoài bên trái */
   opacity: 0;
-  margin-top: 20px;
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #00ccff;
+  padding: 15px 19px; /* Giảm padding cho gọn */
+  font-size: 16px;     /* Nhỏ hơn để gọn hơn */
+  font-weight: bold;
+  background: linear-gradient(135deg, #00ccff, #3366ff);
   border: none;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
-  transition: opacity 0.5s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 204, 255, 0.3);
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  font-family: 'Press Start 2P', cursive;
+  pointer-events: none; /* Tránh click sớm khi chưa hiện */
+  z-index: 10;
 }
 
 #enterBtn.show {
-  visibility: visible;
+  transform: translateX(-50%); /* Trở lại giữa màn hình */
   opacity: 1;
+  pointer-events: auto;
 }
+
+#enterBtn:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 6px 24px rgba(0, 204, 255, 0.6), 0 0 8px #00ccff;
+}
+
+
+
 
 /* Scene 2 */
 #scene2 {
@@ -127,4 +148,8 @@ footer {
   transform: scale(1.1);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   z-index: 2;
+}
+
+body.loading > * {
+  display: none !important;
 }
