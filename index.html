@@ -54,6 +54,14 @@
     <footer>
         <p>&copy; 2025 Nguyễn Văn A</p>
     </footer>
+
+    <nav id="mainNav">
+        <a href="#about">Giới thiệu</a>
+        <a href="#gallery">Tác phẩm</a>
+        <a href="#contact">Liên hệ</a>
+        <a href="#blog" id="blogTab">Bài viết</a> <!-- tab bài viết -->
+    </nav>
+
 </div>
 
 
@@ -78,7 +86,44 @@
     <p>Mô tả chi tiết dự án 3...</p>
 </div>
 
+<!-- Bài viết Scene 6 -->
+
+
+<div id="scene6" class="hidden">
+    <button class="close-btn" id="backToPortfolio">← Quay lại</button>
+    <h2>Đăng bài viết</h2>
+    <form id="postForm" class="centered-form">
+        <input type="text" id="triggerPostPopup" placeholder="Viết bài mới..." readonly />
+    </form>
+
+    <!-- Popup -->
+    <div id="postPopup" class="hidden">
+        <div class="popup-content">
+            <textarea id="postText" placeholder="Nội dung bài viết..."></textarea>
+            <input type="file" id="postMedia" accept="image/*,video/*" />
+            <button id="submitPost">Đăng</button>
+            <button id="closePopup">Đóng</button>
+        </div>
+    </div>
+
+    <!-- Danh sách bài viết -->
+    <div id="postList" class="centered-posts"></div>
+
+</div>
+
+
+<!-- Firebase + cấu hình -->
+<script type="module" src="firebase-init.js"></script>
+
+<!-- Script chính -->
+<script type="module" src="script.js"></script>
+
 
 <script src="script.js"></script>
+
+
+
 </body>
 </html>
+
+
