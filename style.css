@@ -1,21 +1,57 @@
-/* Reset và layout */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ==========================================================================
+   PIXEL-PORTFOLIO — STYLE SHEET
+   MỤC TIÊU:
+   - Tổ chức theo từng khối (reset/biến, scene1, scene2, blog...)
+   - Dùng biến CSS cho màu/bo góc/đổ bóng để đổi theme dễ.
+   - Comment tiếng Việt giải thích ý nghĩa/mục đích từng nhóm style.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   0) RESET & BIẾN TOÀN CỤC
+   ========================================================================== */
+
+/* Reset đơn giản: bỏ margin/padding mặc định, bật border-box để tính kích thước dễ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Đảm bảo body phủ đủ chiều cao viewport */
+html, body { height: 100%; }
+
+/* Biến màu/đổ bóng/bo góc – đổi 1 chỗ áp dụng toàn site */
+:root{
+  --bg:       #0f0f10;   /* nền chính */
+  --bg-2:     #151518;   /* nền phụ (section xen kẽ) */
+  --text:     #e8e8e8;   /* màu chữ chính */
+  --muted:    #a9b1bd;   /* chữ phụ/mô tả */
+  --primary:  #00d1ff;   /* xanh dương neon */
+  --primary-2:#2be4c7;   /* xanh ngọc neon */
+  --card:     #1b1c1f;   /* nền thẻ/card */
+  --accent:   #12b4a6;   /* nhấn */
+  --shadow:   0 10px 40px rgba(0,0,0,.35);
+  --radius:   16px;      /* bo góc chung */
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Arial', sans-serif;
+/* Font thân thiện + fallback, màu nền/chữ mặc định */
+body{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Press Start 2P", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* Scene 1 */
-#scene1 {
+/* Ẩn toàn bộ khi body có class .loading để tránh “nháy” khi JS đang khởi tạo */
+body.loading > * { display: none !important; }
+
+
+/* ==========================================================================
+   1) SCENE 1 — INTRO VIDEO
+   - Toàn màn hình: video + nút “Vào Portfolio”
+   ========================================================================== */
+
+#scene1{
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: black;
+  background: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,279 +59,507 @@ html, body {
   overflow: hidden;
 }
 
-#scene1 video {
+/* Video co giãn trong khung, có viền + đổ bóng nhẹ */
+#scene1 video{
   width: 80%;
-  max-width: 800px;
-  border: 3px solid white;
+  max-width: 900px;
+  border: 3px solid #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
 }
 
-#scene1 {
-  position: relative; /* Cần có để absolute bên trong hoạt động đúng */
-}
-
-/* Căn nút bên dưới video, không đẩy video */
-#enterBtn {
+/* Nút vào scene2 – ẩn sẵn, chỉ hiện khi video kết thúc */
+#enterBtn{
   position: absolute;
-  bottom: 70px; /* Cách đáy scene1 */
+  bottom: 70px;
   left: 50%;
-  transform: translateX(-150%); /* Ban đầu nằm ngoài bên trái */
+  transform: translateX(-150%); /* đẩy ra ngoài để có hiệu ứng trượt vào */
   opacity: 0;
-  padding: 15px 19px; /* Giảm padding cho gọn */
-  font-size: 16px;     /* Nhỏ hơn để gọn hơn */
-  font-weight: bold;
-  background: linear-gradient(135deg, #00ccff, #3366ff);
+  pointer-events: none;
+  padding: 14px 20px;
   border: none;
-  color: white;
-  cursor: pointer;
   border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 204, 255, 0.3);
-  transition: opacity 0.5s ease, transform 0.3s ease;
-  font-family: 'Press Start 2P', cursive;
-  pointer-events: none; /* Tránh click sớm khi chưa hiện */
-  z-index: 10;
+  background: linear-gradient(135deg, var(--primary), #3366ff);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,209,255,.4);
+  transition: transform .3s ease, opacity .4s ease;
 }
 
-#enterBtn.show {
-  transform: translateX(-50%); /* Trở lại giữa màn hình */
+/* Trạng thái hiển thị */
+#enterBtn.show{
+  transform: translateX(-50%);
   opacity: 1;
   pointer-events: auto;
 }
 
-#enterBtn:hover {
+/* Hover nhẹ tăng cảm giác bấm */
+#enterBtn:hover{
   transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 6px 24px rgba(0, 204, 255, 0.6), 0 0 8px #00ccff;
 }
 
 
+/* ==========================================================================
+   2) SCENE 2 — LANDING PAGE (cuộn trượt)
+   - Header cố định, các section: hero (land1), products, gallery, about, contact
+   ========================================================================== */
 
-
-/* Scene 2 */
-#scene2 {
+#scene2{
   display: none;
-  background-color: #1e1e1e;
-  color: #fff;
   min-height: 100vh;
+  background: linear-gradient(180deg, #0e1116, #0a0d12 60%, #0f1518);
 }
 
-header {
-  background-color: #222;
-  padding: 20px;
-  text-align: center;
+/* --- Header cố định trên cùng (sticky) --- */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(10,10,12,.9);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
-nav a {
-  color: #fff;
-  margin: 0 10px;
-  text-decoration: none;
-}
+.container{ width: min(1150px, 92%); margin-inline: auto; }
 
-section {
-  padding: 40px;
-  text-align: center;
-}
-
-.gallery {
+.header-inner{
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+/* Logo góc trái */
+/* Logo là hình ảnh, thu nhỏ lại khoảng 1/10 */
+.logo {
+  display: inline-block;           /* giữ cho link không phá layout */
+  line-height: 0;                  /* bỏ khoảng trống thừa dưới ảnh */
+    position: absolute;     /* cố định trong section hero */
+    left: 50px;             /* cách trái 20px */
+}
+
+.logo img {
+  height: auto;                    /* giữ tỉ lệ gốc */
+  max-width: 60px;                 /* thêm giới hạn để không quá lớn */
+
+}
+
+
+/* --- Menu chính --- */
+.main-nav{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.main-nav a{
+  color: #dde3ea;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .4px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background .2s;
+}
+
+.main-nav a:hover{ background: rgba(255,255,255,.06); }
+.main-nav a.active{ color: #fff; }
+
+/* Gạch gradient trang trí (nếu muốn di chuyển theo mục active có thể điều khiển bằng JS) */
+.nav-underline{
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+  width: 0;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  border-radius: 6px;
+  transition: transform .25s ease, width .25s ease;
+}
+
+/* --- Khối section dùng chung --- */
+.section{ padding: 80px 0; }
+.section-alt{ background: var(--bg-2); }
+.section h2{ font-size: 32px; margin-bottom: 14px; }
+.section .section-desc{ color: var(--muted); margin-bottom: 30px; }
+
+/* ===================== HERO (land1) ===================== */
+/* Nền hero: ảnh + radial gradient cho chiều sâu */
+.land1{
+  position: relative;
+  min-height: calc(100vh);
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(1200px 600px at 70% 10%, #10363a55, transparent 60%),
+    url('images/land1.jpg') center/cover no-repeat fixed;
+}
+.land1-content{display: grid;
+                 grid-template-columns: 1fr 2fr; /* trái nhỏ, phải to hơn */
+                 align-items: center;
+                 gap: 40px;
+                 width: 90%;
+                 max-width: 1200px;
+                 }
+/* Logo ở trên bên trái hero */
+.logotext {
+  position: absolute;     /* cố định trong section hero */
+  top: 90px;              /* cách trên 20px */
+  left: 60px;             /* cách trái 20px */
+  max-width: 520px;       /* thu nhỏ logo lại */
+  height: auto;
+  z-index: 10;            /* nằm trên background */
+}
+
+.land1-title{ font-size: 48px; line-height: 1.1; letter-spacing: 1px; text-shadow: 0 8px 40px rgba(0,0,0,.6); }
+.land1-sub{ margin-top: 10px; color: #c8d4df; }
+
+/* Khung “trailer” giả lập */
+.land1-trailer{
+  position: absolute;     /* cố định trong section hero */
+    top: 310px;              /* cách trên 20px */
+    left: 90px;             /* cách trái 20px */
+    max-width: 470px;       /* thu nhỏ logo lại */
+    height: auto;
+    z-index: 10;            /* nằm trên background */
+  margin: 28px auto;
+  width: min(720px, 90%);
+  aspect-ratio: 16/9;
+  border: 3px solid #2dd4bf33;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+  background: linear-gradient(180deg,#0a0e12,#0b1519);
+}
+
+/* Nút play tròn giữa hộp trailer */
+.play-btn{
+  width: 82px; height: 82px;
+  border-radius: 999px;
+  border: 2px solid var(--primary);
+  color: #fff;
+  background: transparent;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+.play-btn:hover{ transform: scale(1.06); }
+.trailer-label{ color: #86e1ff; margin-top: 12px; letter-spacing: 2px; font-weight: 800; }
+
+/* CTA: 2 nút hành động phổ biến */
+.land1-cta{
+  display: flex;
+  gap: 12px;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-top: 14px;}
+
+.lable-right {
+  position: absolute;
+  top: 180px;               /* vị trí cao phía trên */
+  right: 100px;             /* canh bên phải */
+  z-index: 10;
+
+  font-size: 25px;         /* chữ to hơn */
+  font-family: 'Press Start 2P', cursive, sans-serif; /* font retro đẹp */
+  font-weight: 300;
+  color: #fff;
+
+  text-align: right;
+  white-space: nowrap;
+
+  /* Hiệu ứng glow */
+  text-shadow:
+    0 0 6px #7fffd4,
+    0 0 12px #7fffd4,
+    0 0 24px #7fffd4,
+    0 0 48px #2be4c7;
+  animation: glowPulse 2s infinite alternate;
+}
+
+
+/* Hiệu ứng nhấp nháy nhẹ */
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 6px #00a86b,
+      0 0 12px #00a86b,
+      0 0 24px #00a86b,
+      0 0 48px #2be4c7;
+  }
+  to {
+    text-shadow:
+      0 0 10px #00a86b,
+      0 0 20px #00a86b,
+      0 0 40px #00a86b,
+      0 0 80px #00eaff;
+  }
+}
+
+
+
+.btn-primary, .btn-outline{
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 800;
+}
+/* Button chính: nền 1 màu, chữ đen */
+.btn-primary {
+  font-size: 20px;
+  /* gradient từ trái sang phải */
+  background: linear-gradient(to right, #2ed17f, #53ec9f);
+  color: #000; /* chữ trắng cho nổi bật */
+  font-family: 'Press Start 2P', cursive, sans-serif;
+  border: none;
+  border-radius: 10px;
+  padding: 20px 55px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1); /* hover sáng hơn */
+}
+
+
+.btn-outline{ border: 1px solid #3a4452; color: #dde6ef; }
+.btn-outline:hover{ background: #1c2430; }
+
+.btn-primary-buynow {
+    position: absolute;     /* cố định trong section hero */
+      top: 310px;              /* cách trên 20px */
+      right: 140px;             /* cách trái 20px */
+  font-size: 18px;
+  text-decoration: none;
+  /* gradient từ trái sang phải */
+  background: linear-gradient(to right, #2ed17f, #53ec9f);
+  color: #000; /* chữ trắng cho nổi bật */
+  font-family: 'Press Start 2P', cursive, sans-serif;
+  border: none;
+  border-radius: 10px;
+  padding: 20px 55px;
+  font-weight: 200;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.btn-primary-buynow:hover {
+  filter: brightness(1.1); /* hover sáng hơn */
+}
+
+
+/* ===================== PRODUCTS ===================== */
+.cards{
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(220px,1fr) );
   gap: 20px;
 }
 
-.gallery img {
-  width: 200px;
-  height: auto;
-  border: 2px solid #444;
-}
-
-footer {
-  background-color: #111;
+/* Card sản phẩm chung */
+.card{
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   text-align: center;
-  padding: 10px;
-  font-size: 14px;
+}
+.card img{
+  border-radius: 12px;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.card h3{ font-size: 18px; }
+.card p{ color: var(--muted); font-size: 14px; min-height: 40px; }
+
+/* ===================== GALLERY ===================== */
+.gallery{
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(220px,1fr) );
+  gap: 22px;
 }
 
+/* Ảnh gallery có border nhẹ + hiệu ứng hover */
+.gallery img{
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid #2b2f36;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.gallery img:hover{
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,.45);
+}
 
-.project-scene {
+/* ===================== PROJECT SCENE ===================== */
+/* Trang chi tiết dự án dạng “scene” đơn giản (show/hide bằng JS) */
+.project-scene{
   display: none;
-  padding: 40px;
-  background-color: #121212;
-  color: #fff;
   min-height: 100vh;
+  padding: 40px;
+  background: #0b0f13;
 }
+.project-scene.active{ display: block; }
 
-.project-scene.active {
-  display: block;
-}
-
-.close-btn {
-  background: #00ccff;
-  color: #fff;
+.close-btn{
+  background: var(--primary);
   border: none;
-  padding: 10px 16px;
+  color: #0a0d12;
+  padding: 10px 14px;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  font-weight: 800;
 }
 
-.gallery img {
-  width: 200px;
-  height: auto;
-  border: 2px solid #444;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ===================== FOOTER ===================== */
+footer{
+  padding: 20px 0;
+  text-align: center;
+  color: #9fb1c0;
+  border-top: 1px solid rgba(255,255,255,.06);
 }
 
-.gallery img:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-  z-index: 2;
-}
 
-body.loading > * {
-  display: none !important;
-}
+/* ==========================================================================
+   3) SCENE 6 — BLOG (đăng bài)
+   - Popup đăng bài, danh sách post, nút xoá
+   ========================================================================== */
 
-/* Scene 6 */
-
-#scene6 {
+#scene6{
   display: none;
-  background: linear-gradient(to bottom, #1c1c1c, #2a2a2a);
+  background: linear-gradient(to bottom, #13161a, #0c0f13);
   color: #fff;
-  padding: 40px;
   min-height: 100vh;
-  font-family: 'Arial', sans-serif;
+  padding: 40px;
 }
+#scene6.active{ display: block; }
 
-#scene6.active {
-  display: block;
-}
-
-.centered-form {
+/* Ô nhập “Viết bài mới…” ở giữa */
+.centered-form{
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-#triggerPostPopup {
-  width: 300px;
+/* Nút mở popup */
+#triggerPostPopup{
+  width: 320px;
   padding: 12px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #2b333f;
+  background: #0e1318;
+  color: #cfe3f0;
   cursor: pointer;
 }
 
-#postPopup {
+/* Popup modal đăng bài */
+#postPopup{
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #222;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-  z-index: 1000;
-  display: none;
+  inset: 0;
+  display: none;       /* show bằng .active */
+  place-items: center;
+  background: rgba(0,0,0,.45);
+  z-index: 80;
 }
+#postPopup.active{ display: grid; }
 
-#postPopup.active {
-  display: block;
-}
-
-.popup-content {
+/* Hộp nội dung modal */
+.popup-content{
+  background: #0f141a;
+  border: 1px solid #2a3542;
+  border-radius: 16px;
+  width: min(520px, 92%);
+  padding: 18px;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-#postText {
-  width: 300px;
-  height: 100px;
+/* Textarea */
+#postText{
+  width: 100%;
+  min-height: 110px;
+  border-radius: 10px;
+  border: 1px solid #2b3441;
+  background: #0e141a;
+  color: #e9f3ff;
   padding: 10px;
-  resize: vertical;
-  border-radius: 8px;
-  border: none;
 }
 
-#submitPost, #closePopup {
-  padding: 10px;
+/* Nút trong popup */
+#submitPost, #closePopup{
+  padding: 10px 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 800;
 }
+#submitPost{ background: linear-gradient(135deg,var(--primary), #338bff); color: #fff; }
+#closePopup{ background: #2e3745; color: #e0e7ef; }
 
-#submitPost {
-  background: #00ccff;
-  color: white;
-}
-
-#closePopup {
-  background: #444;
-  color: white;
-}
-
-.centered-posts {
+/* Danh sách bài viết */
+.centered-posts{
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 22px;
+  margin-top: 18px;
 }
 
-.centered-posts .post {
-  width: 100%;
-  max-width: 500px;
-}
-
-#postList {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.post {
-  background: #1e1e1e;
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 20px;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+.post{
+  background: #0f141a;
+  border: 1px solid #28313e;
+  border-radius: 16px;
+  width: min(560px, 92%);
+  padding: 18px;
   position: relative;
+  box-shadow: var(--shadow);
 }
 
-.timestamp {
+.timestamp{
+  color: #9bb1c5;
   font-size: 13px;
-  color: #bbb;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: block;
 }
 
-.post p {
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-.post img,
-.post video {
-  max-width: 100%;
-  border-radius: 8px;
+.post img, .post video{
+  width: 100%;
+  border-radius: 12px;
   margin-top: 10px;
 }
 
-.delete-btn {
+/* Nút xoá bài ở góc trên phải của post */
+.delete-btn{
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
+  right: 12px;
+  top: 12px;
   border: none;
+  background: transparent;
+  color: #b8c4d2;
   cursor: pointer;
-  color: #ccc;
   font-size: 18px;
-  transition: color 0.2s ease;
 }
+.delete-btn:hover{ color: #ff6363; }
 
-.delete-btn:hover {
-  color: #ff4444;
+
+/* ==========================================================================
+   4) RESPONSIVE TWEAKS
+   - Điều chỉnh nhẹ cho màn hình nhỏ
+   ========================================================================== */
+
+@media (max-width: 640px){
+  .land1-title{ font-size: 34px; }
+  .land1-trailer{ width: 95%; }
 }

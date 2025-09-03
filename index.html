@@ -3,127 +3,172 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Pixel Artist Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>The Rotting Market / Shop</title>
+
+    <!-- Font retro -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+    html { scroll-behavior: smooth; }
+  </style>
 </head>
 
-
 <body class="loading">
-
-<!-- SCENE 1: Video Intro -->
+<!-- ===================== SCENE 1: VIDEO INTRO ===================== -->
 <div id="scene1">
-    <video id="introVideo" autoplay muted>
+    <video id="introVideo" autoplay muted playsinline>
         <source src="video/intro.mp4" type="video/mp4" />
         Trình duyệt của bạn không hỗ trợ video.
     </video>
     <button id="enterBtn">Vào Portfolio</button>
 </div>
 
-<!-- SCENE 2: Portfolio -->
-<div id="scene2">
-    <header>
-        <h1>Nguyễn Văn A - Pixel Artist</h1>
-        <nav>
-            <a href="#about">Giới thiệu</a>
-            <a href="#gallery">Tác phẩm</a>
-            <a href="#contact">Liên hệ</a>
-        </nav>
+<!-- ===================== SCENE 2: LANDING PAGE ===================== -->
+<div id="scene2" style="display:none">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#land1"><img src="images/logo.jpg"> </a>
+            <nav class="main-nav">
+                <a href="#land1">Home</a>
+                <a href="#products">Purchase</a>
+                <a href="#gallery">Media</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#" id="blogTab">Blog</a>
+            </nav>
+        </div>
+        <div class="nav-underline"></div>
     </header>
 
-    <section id="about">
-        <h2>Giới thiệu</h2>
-        <p>Tôi là một pixel artist chuyên thiết kế nhân vật và cảnh nền cho game indie.</p>
-    </section>
+    <!-- LAND1 -->
+    <section id="land1" class="section land1">
+        <div class="land1-content">
+            <a href="#land1"><img src="images/logotext.jpg" class="logotext"> </a>
+            <div class="land1-trailer">
+                <button class="play-btn" aria-label="Xem trailer">▶</button>
+                <div class="trailer-label">WATCH TRAILER</div>
+            </div>
 
-    <section id="gallery">
-        <h2>Bộ sưu tập</h2>
-        <div class="gallery">
-            <img src="images/art1.png" alt="Pixel art 1" class="project-img" data-id="project1">
-            <img src="images/art2.png" alt="Pixel art 2" class="project-img" data-id="project2">
-            <img src="images/art3.png" alt="Pixel art 3" class="project-img" data-id="project3">
+
+            <div class="land1-cta">
+                <div class="lable-right">NOW AVAILABLE</div>
+                <a href="#products" class="btn-primary-buynow">BUY NOW</a>
+            </div>
+
+            <div class="platforms">
+                <span>PS</span><span>Switch</span><span>Xbox</span><span>PC</span>
+            </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Liên hệ</h2>
-        <p>Email: artist@example.com</p>
-        <p>Instagram: @pixel.artist</p>
+    <!-- PRODUCTS -->
+    <section id="products" class="section section-alt">
+        <div class="container">
+            <h2>Sản phẩm nổi bật</h2>
+            <p class="section-desc">Asset pack, background, nhân vật pixel…</p>
+            <div class="cards">
+                <article class="card">
+                    <img src="images/product1.png" alt="Pixel Pack 1"/>
+                    <h3>Pixel Pack 1</h3>
+                    <p>50+ sprite nhân vật</p>
+                    <a href="#" class="btn-primary">Mua ngay</a>
+                </article>
+                <article class="card">
+                    <img src="images/product2.png" alt="Pixel Pack 2"/>
+                    <h3>Pixel Pack 2</h3>
+                    <p>Background 16-bit</p>
+                    <a href="#" class="btn-primary">Mua ngay</a>
+                </article>
+                <article class="card">
+                    <img src="images/product3.png" alt="Pixel Pack 3"/>
+                    <h3>Pixel Pack 3</h3>
+                    <p>UI/HUD retro</p>
+                    <a href="#" class="btn-primary">Mua ngay</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2>Bộ sưu tập</h2>
+            <p class="section-desc">Một số tác phẩm pixel đã thực hiện.</p>
+            <div class="gallery">
+                <img src="images/art1.png" alt="Pixel art 1" class="project-img" data-id="project1">
+                <img src="images/art2.png" alt="Pixel art 2" class="project-img" data-id="project2">
+                <img src="images/art3.png" alt="Pixel art 3" class="project-img" data-id="project3">
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section-alt">
+        <div class="container">
+            <h2>Giới thiệu</h2>
+            <p>
+                Tôi là một pixel artist chuyên thiết kế nhân vật & cảnh nền cho game indie.
+                Nhận commission dự án, gói asset và hợp tác dài hạn.
+            </p>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Liên hệ</h2>
+            <p>Email: artist@example.com • Instagram: @pixel.artist</p>
+            <p>Hoặc mở blog để xem tin mới & đăng bài.</p>
+            <a href="#" id="blogTab2" class="btn-outline">Mở Blog</a>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 Nguyễn Văn A</p>
+        <p>&copy; 2025 Pixel Artist</p>
     </footer>
-
-    <nav id="mainNav">
-        <a href="#about">Giới thiệu</a>
-        <a href="#gallery">Tác phẩm</a>
-        <a href="#contact">Liên hệ</a>
-        <a href="#blog" id="blogTab">Bài viết</a> <!-- tab bài viết -->
-    </nav>
-
 </div>
 
-
-
-
-<!-- Scene riêng cho từng project -->
+<!-- PROJECT SCENES -->
 <div class="project-scene hidden" id="project1">
     <button class="close-btn">← Quay lại</button>
     <h2>Dự án 1</h2>
     <p>Mô tả chi tiết dự án 1...</p>
 </div>
-
 <div class="project-scene hidden" id="project2">
     <button class="close-btn">← Quay lại</button>
     <h2>Dự án 2</h2>
     <p>Mô tả chi tiết dự án 2...</p>
 </div>
-
 <div class="project-scene hidden" id="project3">
     <button class="close-btn">← Quay lại</button>
     <h2>Dự án 3</h2>
     <p>Mô tả chi tiết dự án 3...</p>
 </div>
 
-<!-- Bài viết Scene 6 -->
-
-
+<!-- ===================== SCENE 6: BLOG ===================== -->
 <div id="scene6" class="hidden">
     <button class="close-btn" id="backToPortfolio">← Quay lại</button>
     <h2>Đăng bài viết</h2>
-    <form id="postForm" class="centered-form">
+    <form id="postForm" class="centered-form" onsubmit="return false;">
         <input type="text" id="triggerPostPopup" placeholder="Viết bài mới..." readonly />
     </form>
-
-    <!-- Popup -->
-    <div id="postPopup" class="hidden">
+    <div id="postPopup" class="hidden" role="dialog" aria-modal="true" aria-labelledby="postTitle">
         <div class="popup-content">
+            <h3 id="postTitle" class="sr-only">Đăng bài mới</h3>
             <textarea id="postText" placeholder="Nội dung bài viết..."></textarea>
             <input type="file" id="postMedia" accept="image/*,video/*" />
-            <button id="submitPost">Đăng</button>
-            <button id="closePopup">Đóng</button>
+            <button id="submitPost" type="button">Đăng</button>
+            <button id="closePopup" type="button">Đóng</button>
         </div>
     </div>
-
-    <!-- Danh sách bài viết -->
     <div id="postList" class="centered-posts"></div>
-
 </div>
 
-
-<!-- Firebase + cấu hình -->
+<!-- SCRIPTS -->
 <script type="module" src="firebase-init.js"></script>
-
-<!-- Script chính -->
 <script type="module" src="script.js"></script>
-
-
-<script src="script.js"></script>
-
-
-
 </body>
 </html>
-
-
